@@ -37,7 +37,7 @@ export function Hero() {
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         <article
-          className="relative min-h-[calc(100svh-72px)] w-full min-w-full shrink-0"
+          className="relative min-h-[calc(100svh-68px)] lg:min-h-svh w-full min-w-full shrink-0"
           aria-hidden={index !== 0}
           aria-label="Home loans"
         >
@@ -53,7 +53,7 @@ export function Hero() {
             <div className="absolute inset-y-0 left-0 w-[72%] md:w-[54%] bg-gradient-to-r from-[#eaf5fc] from-35% via-[#eaf5fc]/80 to-transparent" />
           </div>
 
-          <Container className="relative z-10 flex min-h-[calc(100svh-72px)] flex-col">
+          <Container className="relative z-10 flex min-h-[calc(100svh-68px)] lg:min-h-svh flex-col">
             <div className="relative flex flex-1 items-center py-12 md:py-16">
               <div className="hero-enter max-w-[520px]">
                 <p className="text-xs font-semibold tracking-[0.16em] uppercase text-brand mb-4">
@@ -75,9 +75,11 @@ export function Hero() {
                   <Button href="/quote" size="xs">
                     Get a Free Quote
                   </Button>
-                  <Button href="/services" variant="outline" size="xs" className="bg-white">
-                    Explore Our Services
-                  </Button>
+                  <span className="max-md:hidden">
+                    <Button href="/services" variant="outline" size="xs" className="bg-white">
+                      Explore Our Services
+                    </Button>
+                  </span>
                 </div>
                 <Achievements className="mt-5 lg:hidden" />
               </div>
@@ -87,14 +89,14 @@ export function Hero() {
         </article>
 
         <article
-          className="relative min-h-[calc(100svh-72px)] w-full min-w-full shrink-0 bg-[#eaf5fc]"
+          className="relative min-h-[calc(100svh-68px)] lg:min-h-svh w-full min-w-full shrink-0 bg-[#eaf5fc]"
           aria-hidden={index !== 1}
           aria-label="Gopal Woli"
         >
-          <Container className="relative z-10 flex min-h-[calc(100svh-72px)] flex-col">
+          <Container className="relative z-10 flex min-h-[calc(100svh-68px)] lg:min-h-svh flex-col">
             <div className="relative flex flex-1 items-center">
               <div className="grid w-full items-center gap-8 py-10 lg:grid-cols-2 lg:gap-12 lg:py-0">
-                <div className="order-2 max-w-[520px] pb-10 lg:order-1 lg:pb-0">
+                <div className="max-w-[520px] pb-2 lg:pb-0">
                   <p className="mb-3 text-[20px] font-bold tracking-[0.08em] text-cta uppercase sm:text-[24px] md:text-[28px]">
                     Gopal Woli
                   </p>
@@ -111,14 +113,16 @@ export function Hero() {
                     <Button href="/quote" size="xs">
                       Claim your free quote
                     </Button>
-                    <Button href="/services" variant="outline" size="xs" className="bg-white">
-                      Explore Our Services
-                    </Button>
+                    <span className="max-md:hidden">
+                      <Button href="/services" variant="outline" size="xs" className="bg-white">
+                        Explore Our Services
+                      </Button>
+                    </span>
                   </div>
                   <Achievements className="mt-5 lg:hidden" />
                 </div>
 
-                <div className="relative order-1 mx-auto flex h-[340px] w-full max-w-[420px] items-end justify-center sm:h-[420px] lg:order-2 lg:mx-0 lg:ml-auto lg:h-[calc(100svh-72px)] lg:max-w-none">
+                <div className="relative mx-auto flex h-[340px] w-full max-w-[420px] items-end justify-center sm:h-[420px] lg:mx-0 lg:ml-auto lg:h-[calc(100svh)] lg:max-w-none">
                   <Image
                     src="/maindirector.jpeg"
                     alt="Gopal Woli, mortgage broker in Canberra"

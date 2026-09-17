@@ -24,7 +24,7 @@ export function Breadcrumb({
         priority
       />
       <div className="absolute inset-0 bg-navy/55" />
-      <Container className="relative z-10 py-16 md:py-20 text-center">
+      <Container className="relative z-10 py-16 text-center md:py-20 lg:pt-32">
         <nav className="flex items-center justify-center gap-2 text-[13px] tracking-wide">
           <Link
             href="/"

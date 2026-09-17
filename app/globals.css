@@ -272,3 +272,39 @@ details > summary::marker {
     transition: none !important;
   }
 }
+
+@media (min-width: 1024px) {
+  .nav-glass {
+    isolation: isolate;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.16) 100%);
+    box-shadow:
+      0 10px 30px rgba(15, 117, 188, 0.1),
+      0 1px 0 rgba(255, 255, 255, 0.82) inset,
+      0 -8px 18px rgba(15, 117, 188, 0.05) inset;
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+  }
+
+  .nav-glass.is-scrolled {
+    border-color: rgba(255, 255, 255, 0.7);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.4) 100%);
+    box-shadow:
+      0 8px 24px rgba(23, 32, 43, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  }
+
+  .nav-glass-item:hover {
+    color: var(--color-brand);
+    background: rgba(255, 255, 255, 0.38);
+  }
+
+  .nav-glass-item.is-active {
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.95) inset,
+      0 6px 14px rgba(15, 117, 188, 0.1);
+  }
+}
