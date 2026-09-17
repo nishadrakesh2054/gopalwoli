@@ -1,0 +1,26 @@
+export const site = {
+  name: "Gopal Woli",
+  tagline: "Mortgage broker in Canberra, ACT",
+  phone: "+61 470 645 175",
+  phoneHref: "tel:+61470645175",
+  email: "info@gopalwoli.com.au",
+  emailHref: "mailto:info@gopalwoli.com.au",
+  address: "Level 1, Unit 11 2-10 Oatley Court, 2617 Belconnen, Canberra, ACT",
+  addressLines: [
+    "Level 1, Unit 11 2-10 Oatley Court",
+    "2617 Belconnen, Canberra, ACT",
+  ],
+  languages: "English, Nepali, Hindi",
+  hours: "Consultations by appointment, including after-hours by arrangement.",
+  creditRep: "516447",
+  acl: "383640",
+  licensee: "Beagle Finance Pty Ltd",
+  calculatorHref: "https://www.afhl.com.au/calculators/",
+  creditGuideHref: "/credit-guide",
+  social: {
+    facebook: "https://www.facebook.com/",
+    whatsapp: "https://wa.me/61470645175",
+    instagram: "https://www.instagram.com/",
+    x: "https://x.com/",
+  },
+} as const;

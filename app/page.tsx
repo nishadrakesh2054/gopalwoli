@@ -1,69 +1,58 @@
-import Image from "next/image";
+import { FinalCTA } from "@/components/sections/FinalCTA";
+import { Hero } from "@/components/sections/Hero";
+import { HomePromos } from "@/components/sections/HomePromos";
+import { HomeProof } from "@/components/sections/HomeProof";
+import { HomeServices } from "@/components/sections/HomeServices";
+import { PartnerCarousel } from "@/components/sections/PartnerCarousel";
+import { Process } from "@/components/sections/Process";
+import { DirectorMessage } from "@/components/sections/DirectorMessage";
+import { RunningStats } from "@/components/sections/RunningStats";
+import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 
-export default function Home() {
+const homeFaqs = [
+  {
+    q: "What does a mortgage broker do?",
+    a: "A broker helps you understand lending requirements, compare suitable loan options, and prepare an application. We do not lend the money ourselves — lenders make the credit decision.",
+  },
+  {
+    q: "How does the home loan process work?",
+    a: "Typically: a conversation about your goals, an assessment of borrowing position, a comparison of suitable products, an application, then unconditional approval and settlement.",
+  },
+  {
+    q: "What is pre-approval?",
+    a: "Pre-approval is a lender’s conditional indication of how much you may be able to borrow, usually before you have a property under contract. It is not a final offer of credit.",
+  },
+  {
+    q: "Can you help first home buyers?",
+    a: "Yes. We help first-home buyers understand deposits, Lenders Mortgage Insurance, documents and the steps through to settlement. Scheme eligibility is always confirmed against current rules.",
+  },
+  {
+    q: "Can you help with refinancing?",
+    a: "Yes. We review your current loan — rate, fees, remaining term and features — and whether a change is actually worth the switching costs.",
+  },
+  {
+    q: "Do I pay a broker fee?",
+    a: "For most home loans we are paid a commission by the lender if a loan settles. You should still compare the overall cost of the loan. Any fee that would apply to a particular product is explained before you proceed.",
+  },
+  {
+    q: "What documents do I need?",
+    a: "Typical starting documents include identification, recent payslips or tax returns, bank statements, and details of existing loans or credit cards. We confirm an exact list after the first conversation — it depends on your situation and the lender.",
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <Hero />
+      <HomeServices />
+      <Process />
+      <WhyChooseUs />
+      <RunningStats />
+      <DirectorMessage />
+      <HomePromos />
+      <HomeProof faqs={homeFaqs} />
+      <PartnerCarousel />
+      <FinalCTA />
+    </>
   );
 }
