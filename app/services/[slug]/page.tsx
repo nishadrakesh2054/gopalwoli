@@ -133,16 +133,22 @@ export default async function ServiceDetailPage({ params }: Props) {
           <div>
             {service.faqs.map((item) => (
               <details key={item.q} className="group border-b border-line">
-                <summary className="relative cursor-pointer py-4 pr-8 text-[15px] font-semibold text-ink">
-                  {item.q}
-                  <span className="absolute top-4 right-0 text-lg font-normal text-brand group-open:hidden">
+                <summary className="flex cursor-pointer items-start justify-between gap-3 py-4 text-[15px] font-semibold text-ink">
+                  <span className="min-w-0 flex-1">{item.q}</span>
+                  <span
+                    className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-lg font-normal leading-none text-brand group-open:hidden"
+                    aria-hidden="true"
+                  >
                     +
                   </span>
-                  <span className="absolute top-4 right-0 hidden text-lg font-normal text-brand group-open:inline">
+                  <span
+                    className="mt-0.5 hidden h-5 w-5 shrink-0 items-center justify-center text-lg font-normal leading-none text-brand group-open:inline-flex"
+                    aria-hidden="true"
+                  >
                     –
                   </span>
                 </summary>
-                <p className="pb-4 pr-8 text-[14.5px] leading-relaxed text-muted">{item.a}</p>
+                <p className="pb-4 text-[14.5px] leading-relaxed text-muted">{item.a}</p>
               </details>
             ))}
           </div>

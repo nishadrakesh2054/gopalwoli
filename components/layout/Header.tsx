@@ -8,7 +8,7 @@ import { nav } from "@/lib/nav";
 import { Container } from "@/components/ui/Container";
 
 const headerCtaClass =
-  "inline-flex h-8 items-center justify-center px-3.5 rounded-full bg-cta text-[13px] font-semibold text-white no-underline transition-all duration-300 hover:bg-cta-dark hover:shadow-[0_8px_18px_rgba(247,148,29,0.35)] hover:-translate-y-px";
+  "h-8 items-center justify-center px-3.5 rounded-full bg-cta text-[13px] font-semibold text-white no-underline transition-all duration-300 hover:bg-cta-dark hover:shadow-[0_8px_18px_rgba(247,148,29,0.35)] hover:-translate-y-px";
 
 export function Header() {
   const pathname = usePathname();
@@ -58,27 +58,27 @@ export function Header() {
 
         <button
           type="button"
-          className="ml-auto inline-flex items-center gap-2 h-8 px-2.5 rounded-full border border-line text-[13px] font-semibold text-ink lg:hidden"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center text-ink lg:hidden"
           aria-expanded={open}
           aria-controls="site-nav"
+          aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="relative flex h-3.5 w-3.5 flex-col justify-center gap-[3px]" aria-hidden="true">
+          <span className="relative flex h-3.5 w-4 flex-col justify-center gap-[3px]" aria-hidden="true">
             <span
-              className={`block h-0.5 w-3.5 bg-ink transition-transform duration-300 ${
+              className={`block h-0.5 w-4 bg-ink transition-transform duration-300 ${
                 open ? "translate-y-[5px] rotate-45" : ""
               }`}
             />
             <span
-              className={`block h-0.5 w-3.5 bg-ink transition-opacity duration-200 ${open ? "opacity-0" : ""}`}
+              className={`block h-0.5 w-4 bg-ink transition-opacity duration-200 ${open ? "opacity-0" : ""}`}
             />
             <span
-              className={`block h-0.5 w-3.5 bg-ink transition-transform duration-300 ${
+              className={`block h-0.5 w-4 bg-ink transition-transform duration-300 ${
                 open ? "-translate-y-[5px] -rotate-45" : ""
               }`}
             />
           </span>
-          {open ? "Close" : "Menu"}
         </button>
 
         <nav
@@ -128,18 +128,9 @@ export function Header() {
               );
             })}
           </ul>
-          <div className="mt-3 lg:hidden">
-            <Link
-              href="/quote"
-              className={headerCtaClass + " w-full"}
-              onClick={() => setOpen(false)}
-            >
-              Get a Free Quote
-            </Link>
-          </div>
         </nav>
 
-        <Link href="/quote" className={`${headerCtaClass} hidden lg:inline-flex shrink-0`}>
+        <Link href="/quote" className={`${headerCtaClass} hidden shrink-0 lg:inline-flex`}>
           Get a Free Quote
         </Link>
       </Container>

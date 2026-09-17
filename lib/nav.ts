@@ -1,6 +1,6 @@
 export const nav = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
   { href: "/blog", label: "Blog" },
   { href: "https://www.afhl.com.au/calculators/", label: "Calculator", external: true },
@@ -9,7 +9,7 @@ export const nav = [
 
 export const footerPages = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
   { href: "/blog", label: "Blog" },
   { href: "https://www.afhl.com.au/calculators/", label: "Calculator" },

@@ -46,7 +46,7 @@ export function PartnerCarousel() {
         if (loopWidth > 0 && -offsetRef.current >= loopWidth) {
           offsetRef.current += loopWidth;
         }
-        track.style.left = `${Math.round(offsetRef.current)}px`;
+        track.style.transform = `translate3d(${Math.round(offsetRef.current)}px,0,0)`;
       }
       frame = requestAnimationFrame(tick);
     };
@@ -63,7 +63,7 @@ export function PartnerCarousel() {
             <span className="h-[2px] w-6 bg-cta" aria-hidden="true" />
             Partners
           </p>
-          <h2 className="text-[32px] leading-[1.15] font-bold tracking-tight text-ink md:text-[42px]">
+          <h2 className="text-[24px] leading-snug font-bold tracking-tight text-ink text-balance sm:text-[32px] md:text-[42px] md:leading-[1.15]">
             Our Trusted Lenders
           </h2>
           <p className="mt-3 text-[15.5px] text-body">
@@ -73,7 +73,7 @@ export function PartnerCarousel() {
       </Container>
 
       <div
-        className="overflow-hidden"
+        className="relative h-[80px] w-full max-w-full overflow-hidden sm:h-[92px]"
         onMouseEnter={() => {
           pausedRef.current = true;
         }}
@@ -81,21 +81,21 @@ export function PartnerCarousel() {
           pausedRef.current = false;
         }}
       >
-        <div ref={trackRef} className="relative flex w-max">
+        <div ref={trackRef} className="absolute top-0 left-0 flex w-max will-change-transform">
           {logos.map((partner, index) => (
             <a
               key={`${partner.name}-${index}`}
               href={partner.href}
               target="_blank"
               rel="noreferrer"
-              className="mr-4 flex h-[92px] w-[176px] shrink-0 items-center justify-center bg-white px-4 no-underline"
+              className="flex h-[80px] w-[33.333vw] shrink-0 items-center justify-center bg-white px-2 no-underline sm:mr-4 sm:h-[92px] sm:w-[176px] sm:px-4"
             >
               <Image
                 src={partner.src}
                 alt={partner.name}
                 width={150}
                 height={52}
-                className="h-12 w-auto max-w-[148px] object-contain"
+                className="h-9 w-auto max-w-[110px] object-contain sm:h-12 sm:max-w-[148px]"
               />
             </a>
           ))}

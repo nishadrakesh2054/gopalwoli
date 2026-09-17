@@ -10,7 +10,7 @@ export function HomeServices() {
             <span className="h-[2px] w-6 bg-cta" aria-hidden="true" />
             Our services
           </p>
-          <h2 className="text-[32px] md:text-[42px] leading-[1.15] tracking-tight text-ink font-bold">
+          <h2 className="text-[24px] leading-snug font-bold tracking-tight text-ink text-balance sm:text-[32px] sm:leading-[1.15] md:text-[42px]">
             Finance Solutions for Every Stage
           </h2>
         </div>

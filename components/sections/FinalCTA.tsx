@@ -24,7 +24,7 @@ export function FinalCTA({
       />
       <div className="absolute inset-0 bg-brand/88" />
       <Container className="relative z-10 text-center">
-        <h2 className="text-white text-[32px] md:text-[36px] font-bold tracking-tight">
+        <h2 className="text-[24px] leading-snug font-bold tracking-tight text-white text-balance sm:text-[32px] md:text-[36px]">
           {title}
         </h2>
         <p className="mt-3 text-[#eaf4fb] leading-relaxed">{body}</p>

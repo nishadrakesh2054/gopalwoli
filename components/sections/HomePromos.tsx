@@ -35,7 +35,7 @@ export function HomePromos() {
               />
             </div>
             <div className="bg-brand text-white p-6 flex flex-col justify-center">
-              <h2 className="text-[22px] font-bold leading-snug">{tile.title}</h2>
+              <h2 className="text-[18px] font-bold leading-snug sm:text-[22px]">{tile.title}</h2>
               <p className="mt-3 text-[14.5px] text-white/90 leading-relaxed">{tile.body}</p>
               <Link
                 href={tile.href}

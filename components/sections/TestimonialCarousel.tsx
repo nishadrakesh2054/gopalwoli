@@ -41,11 +41,11 @@ export function TestimonialCarousel() {
 
   return (
     <div
-      className="mt-8"
+      className="mt-8 min-w-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="overflow-hidden">
+      <div className="overflow-hidden max-w-full">
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
@@ -53,19 +53,19 @@ export function TestimonialCarousel() {
           {testimonials.map((item) => (
             <article key={item.name} className="min-w-full px-0.5">
               <div className="rounded-2xl bg-white p-6 md:p-7 shadow-[0_8px_24px_rgba(23,32,43,0.06)]">
-                <div className="flex items-center gap-5">
-                  <div className="relative h-[120px] w-[120px] shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-[0_6px_16px_rgba(23,32,43,0.12)]">
+                <div className="flex flex-col items-center gap-4 text-center md:flex-row md:items-center md:gap-5 md:text-left">
+                  <div className="relative h-[96px] w-[96px] shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-[0_6px_16px_rgba(23,32,43,0.12)] md:h-[120px] md:w-[120px]">
                     <Image
                       src={item.image}
                       alt={item.imageAlt}
                       fill
                       className="object-cover object-[center_18%]"
-                      sizes="120px"
+                      sizes="(min-width: 768px) 120px, 96px"
                     />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[18px] font-semibold tracking-[-0.02em] text-ink">{item.name}</p>
-                    <p className="mt-2 text-[15px] leading-relaxed text-body">“{item.text}”</p>
+                    <p className="text-[17px] font-semibold tracking-[-0.02em] text-ink md:text-[18px]">{item.name}</p>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-body md:text-[15px]">“{item.text}”</p>
                   </div>
                 </div>
               </div>

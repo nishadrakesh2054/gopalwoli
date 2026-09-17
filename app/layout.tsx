@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-AU" className={`${plusJakarta.variable} h-full antialiased`}>
-      <body className={`${plusJakarta.className} min-h-full flex flex-col font-sans`}>
+      <body className={`${plusJakarta.className} min-h-full min-w-0 flex flex-col font-sans overflow-x-clip`}>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-navy focus:text-white focus:px-3 focus:py-2"
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <Header />
-        <main id="main" className="flex-1">
+        <main id="main" className="min-w-0 flex-1 overflow-x-clip">
           {children}
         </main>
         <Footer />

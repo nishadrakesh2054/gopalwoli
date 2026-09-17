@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { AboutIntro } from "@/components/sections/AboutIntro";
 import { DirectorMessage } from "@/components/sections/DirectorMessage";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -8,7 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us",
   description: "Meet Gopal Woli, a Canberra-based mortgage and finance broker in Belconnen, ACT.",
 };
 
@@ -45,8 +44,7 @@ const reasons = [
 export default function AboutPage() {
   return (
     <>
-      <Breadcrumb title="About" />
-      <AboutIntro />
+      <Breadcrumb title="About Us" />
       <DirectorMessage />
 
       <section className="reveal bg-white py-12 md:py-16">

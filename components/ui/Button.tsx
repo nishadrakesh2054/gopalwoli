@@ -4,7 +4,7 @@ type Props = {
   href?: string;
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "outline" | "outlineLight";
-  size?: "sm" | "md";
+  size?: "xs" | "sm" | "md";
   type?: "button" | "submit";
   className?: string;
   onClick?: () => void;
@@ -18,6 +18,7 @@ const styles = {
 };
 
 const sizes = {
+  xs: "h-7 px-3 text-[12px] sm:h-8 sm:px-4 sm:text-[13px]",
   sm: "h-8 px-4 text-[13px]",
   md: "h-11 px-5 text-[15px]",
 };

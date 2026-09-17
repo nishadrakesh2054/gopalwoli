@@ -16,18 +16,18 @@ export function Process() {
             <span className="h-[2px] w-6 bg-cta" aria-hidden="true" />
             How it works
           </p>
-          <h2 className="text-[32px] md:text-[42px] leading-[1.15] tracking-tight text-ink font-bold">
+          <h2 className="text-[24px] leading-snug font-bold tracking-tight text-ink text-balance sm:text-[32px] sm:leading-[1.15] md:text-[42px]">
             Simple Steps to Your Goal
           </h2>
         </div>
-        <ol className="reveal-stagger relative grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="reveal-stagger relative grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4 lg:gap-8">
           <span
             className="hidden lg:block absolute top-8 left-[12%] right-[12%] border-t-2 border-dashed border-cta/40"
             aria-hidden="true"
           />
           {steps.map((step) => (
             <li key={step.num} className="relative text-center">
-              <span className="relative mx-auto mb-3 flex h-16 w-16 items-center justify-center">
+              <span className="relative mx-auto mb-3 flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
                 <span
                   className="absolute inset-0 rounded-full border-2 border-brand"
                   aria-hidden="true"

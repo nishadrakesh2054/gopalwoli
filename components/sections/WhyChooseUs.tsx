@@ -10,11 +10,11 @@ const points = [
 ];
 
 const stats = [
-  { label: "Customer Satisfaction", value: 85 },
-  { label: "Happy Customer", value: 78 },
-  { label: "5 Star Ratings", value: 70 },
-  { label: "Dedication", value: 62 },
-  { label: "Helping Hands", value: 55 },
+  { label: "Customer Satisfaction", value: 100 },
+  { label: "Happy Customer", value: 98 },
+  { label: "5 Star Ratings", value: 97 },
+  { label: "Dedication", value: 98 },
+  { label: "Helping Hands", value: 98 },
 ];
 
 export function WhyChooseUs() {
@@ -26,7 +26,7 @@ export function WhyChooseUs() {
             <span className="h-[2px] w-6 bg-cta" aria-hidden="true" />
             Why choose Gopal Woli
           </p>
-          <h2 className="text-[32px] md:text-[42px] leading-[1.15] tracking-tight text-ink font-bold max-w-[18ch]">
+          <h2 className="text-[24px] leading-snug font-bold tracking-tight text-ink text-balance sm:text-[32px] sm:leading-[1.15] md:text-[42px] md:max-w-[18ch]">
             Expert Mortgage Solutions for Your Dream Home
           </h2>
         </div>

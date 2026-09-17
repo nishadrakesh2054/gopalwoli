@@ -10,7 +10,7 @@ export function DirectorMessage() {
             <span className="h-[2px] w-6 bg-cta" aria-hidden="true" />
             Director message
           </p>
-          <h2 className="text-[32px] md:text-[42px] leading-[1.15] tracking-tight text-ink font-bold max-w-[22ch]">
+          <h2 className="text-[24px] leading-snug font-bold tracking-tight text-ink text-balance sm:text-[32px] sm:leading-[1.15] md:text-[42px] md:max-w-[22ch]">
             Dedicated Mortgage Professionals for Your Financial Success
           </h2>
         </div>
