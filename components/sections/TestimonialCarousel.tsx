@@ -2,42 +2,25 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import type { HomeTestimonial } from "@/lib/testimonials";
 
-const testimonials = [
-  {
-    name: "John Bolf",
-    image: "/testimonial/john.jpeg",
-    imageAlt: "Portrait of John Bolf",
-    text: "Great service! They helped us secure the perfect home loan at an amazing rate. Highly recommended!",
-  },
-  {
-    name: "Anna Fury",
-    image: "/testimonial/anna.jpeg",
-    imageAlt: "Portrait of Anna Fury",
-    text: "Professional and knowledgeable team. They made the refinancing process smooth and stress-free!",
-  },
-  {
-    name: "David Linn",
-    image: "/testimonial/david.jpeg",
-    imageAlt: "Portrait of David Linn",
-    text: "Excellent mortgage brokers! They found me competitive rates and saved thousands on my investment property.",
-  },
-];
-
-export function TestimonialCarousel() {
+export function TestimonialCarousel({ testimonials }: { testimonials: HomeTestimonial[] }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const count = testimonials.length;
 
   const goTo = useCallback((next: number) => {
+    if (!count) return;
     setIndex((next + count) % count);
   }, [count]);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || count < 2) return;
     const timer = window.setInterval(() => goTo(index + 1), 5500);
     return () => window.clearInterval(timer);
-  }, [goTo, index, paused]);
+  }, [goTo, index, paused, count]);
+
+  if (!count) return null;
 
   return (
     <div
@@ -50,19 +33,21 @@ export function TestimonialCarousel() {
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          {testimonials.map((item) => (
-            <article key={item.name} className="min-w-full px-0.5">
+          {testimonials.map((item, i) => (
+            <article key={`${item.name}-${i}`} className="min-w-full px-0.5">
               <div className="rounded-2xl bg-white p-6 md:p-7 shadow-[0_8px_24px_rgba(23,32,43,0.06)]">
                 <div className="flex flex-col items-center gap-4 text-center md:flex-row md:items-center md:gap-5 md:text-left">
-                  <div className="relative h-[96px] w-[96px] shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-[0_6px_16px_rgba(23,32,43,0.12)] md:h-[120px] md:w-[120px]">
-                    <Image
-                      src={item.image}
-                      alt={item.imageAlt}
-                      fill
-                      className="object-cover object-[center_18%]"
-                      sizes="(min-width: 768px) 120px, 96px"
-                    />
-                  </div>
+                  {item.image ? (
+                    <div className="relative h-[96px] w-[96px] shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-[0_6px_16px_rgba(23,32,43,0.12)] md:h-[120px] md:w-[120px]">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt || item.name}
+                        fill
+                        className="object-cover object-[center_18%]"
+                        sizes="(min-width: 768px) 120px, 96px"
+                      />
+                    </div>
+                  ) : null}
                   <div className="min-w-0">
                     <p className="text-[17px] font-semibold tracking-[-0.02em] text-ink md:text-[18px]">{item.name}</p>
                     <p className="mt-2 text-[14.5px] leading-relaxed text-body md:text-[15px]">“{item.text}”</p>
@@ -78,7 +63,7 @@ export function TestimonialCarousel() {
         <div className="flex items-center gap-1.5" role="tablist" aria-label="Testimonial slides">
           {testimonials.map((item, i) => (
             <button
-              key={item.name}
+              key={`${item.name}-dot-${i}`}
               type="button"
               role="tab"
               aria-selected={index === i}

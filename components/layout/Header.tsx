@@ -54,7 +54,7 @@ export function Header() {
             className={`block w-auto transition-[height] duration-300 h-[65px] ${
               scrolled
                 ? "lg:h-[73px]"
-                : "lg:h-[117px] lg:drop-shadow-[0_6px_16px_rgba(255,255,255,0.55)]"
+                : "lg:h-[117px] lg:drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]"
             }`}
             priority
           />
@@ -91,13 +91,13 @@ export function Header() {
           className={`${open ? "flex" : "hidden"} lg:flex absolute lg:static left-0 right-0 top-full lg:top-auto lg:col-start-2 lg:row-start-1 lg:justify-self-center flex-col lg:flex-row lg:items-center px-4 lg:px-0 py-3 lg:py-0 bg-white lg:bg-transparent border-b lg:border-0 border-line`}
         >
           <ul
-            className={`nav-glass flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-0.5 lg:rounded-full lg:px-1.5 lg:py-1 ${
+            className={`nav-glass flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-1 lg:rounded-full lg:px-2 lg:py-1.5 ${
               scrolled ? "is-scrolled" : ""
             }`}
           >
             {nav.map((item) => {
               const active = isActive(item.href);
-              const className = `nav-glass-item inline-flex items-center rounded-full px-3.5 py-2.5 lg:py-1.5 text-[13px] leading-none no-underline transition-all duration-200 ${
+              const className = `nav-glass-item inline-flex items-center rounded-full px-4 py-2.5 lg:py-2 text-[14px] leading-none no-underline transition-all duration-200 ${
                 active ? "is-active font-semibold text-cta" : "font-medium text-ink"
               }`;
 

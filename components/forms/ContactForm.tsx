@@ -7,8 +7,15 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 
+/**
+ * CONTACT → SANITY WORKFLOW
+ * This form POSTs to /api/contact. That route creates a Sanity document.
+ * Open /studio → Contact messages to see it.
+ */
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
 
   if (sent) {
     return (
@@ -24,8 +31,35 @@ export function ContactForm() {
   return (
     <form
       className="grid gap-5"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
+        setError("");
+        setPending(true);
+
+        const form = event.currentTarget;
+        const data = new FormData(form);
+
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: data.get("name"),
+            email: data.get("email"),
+            phone: data.get("phone"),
+            financeType: data.get("finance-type"),
+            message: data.get("message"),
+          }),
+        });
+
+        const result = (await response.json()) as { error?: string };
+        setPending(false);
+
+        if (!response.ok) {
+          setError(result.error || "Could not send the message. Please try again.");
+          return;
+        }
+
+        form.reset();
         setSent(true);
       }}
     >
@@ -52,10 +86,13 @@ export function ContactForm() {
         />
       </div>
       <Textarea id="message" label="Message" rows={5} />
+      {error ? <p className="text-[13px] text-cta">{error}</p> : null}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" size="sm">Send message</Button>
+        <Button type="submit" size="sm" disabled={pending}>
+          {pending ? "Sending…" : "Send message"}
+        </Button>
         <p className="text-[13px] text-muted">
-          Visual prototype only. See the{" "}
+          Messages are saved to the dashboard. See the{" "}
           <a href="/privacy" className="font-medium text-brand no-underline hover:underline">
             Privacy Policy
           </a>

@@ -23,12 +23,12 @@ export function Breadcrumb({
         sizes="100vw"
         priority
       />
-      <div className="absolute inset-0 bg-navy/55" />
-      <Container className="relative z-10 py-16 text-center md:py-20 lg:pt-32">
-        <nav className="flex items-center justify-center gap-2 text-[13px] tracking-wide">
+      <div className="absolute inset-0 bg-gradient-to-b from-brand/20 via-transparent to-navy/70" />
+      <Container className="relative z-10 py-16 text-center md:py-20 lg:pt-36">
+        <nav className="flex items-center justify-center gap-2 text-[13px] font-bold tracking-wide">
           <Link
             href="/"
-            className="uppercase text-white/80 no-underline hover:text-white"
+            className="uppercase text-white no-underline hover:text-white"
           >
             home
           </Link>
@@ -37,7 +37,7 @@ export function Breadcrumb({
           </span>
           <span className="uppercase text-white">{title}</span>
         </nav>
-        <TitleTag className="mt-3 text-[32px] font-bold tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] md:text-[40px]">
+        <TitleTag className="mt-3 text-[32px] font-bold tracking-tight text-white md:text-[40px]">
           {title}
         </TitleTag>
       </Container>

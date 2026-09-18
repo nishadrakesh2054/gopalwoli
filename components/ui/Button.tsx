@@ -8,6 +8,7 @@ type Props = {
   type?: "button" | "submit";
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 };
 
 const styles = {
@@ -31,8 +32,11 @@ export function Button({
   type = "button",
   className = "",
   onClick,
+  disabled,
 }: Props) {
-  const cls = `inline-flex items-center justify-center rounded-full font-semibold no-underline transition-colors ${sizes[size]} ${styles[variant]} ${className}`;
+  const cls = `inline-flex items-center justify-center rounded-full font-semibold no-underline transition-colors ${sizes[size]} ${styles[variant]} ${className} ${
+    disabled ? "pointer-events-none opacity-60" : ""
+  }`;
 
   if (href) {
     return (
@@ -43,7 +47,7 @@ export function Button({
   }
 
   return (
-    <button type={type} className={cls} onClick={onClick}>
+    <button type={type} className={cls} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

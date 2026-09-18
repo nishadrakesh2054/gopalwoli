@@ -7,8 +7,15 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 
+/**
+ * QUOTE → SANITY WORKFLOW
+ * This form POSTs to /api/quote. That route creates a Sanity document.
+ * Open /studio → Quote requests to see it.
+ */
 export function QuoteForm() {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
 
   if (sent) {
     return (
@@ -24,8 +31,37 @@ export function QuoteForm() {
   return (
     <form
       className="grid gap-5"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
+        setError("");
+        setPending(true);
+
+        const form = event.currentTarget;
+        const data = new FormData(form);
+
+        const response = await fetch("/api/quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: data.get("q-name"),
+            email: data.get("q-email"),
+            phone: data.get("q-phone"),
+            requirement: data.get("q-requirement"),
+            employment: data.get("q-employment"),
+            amount: data.get("q-amount"),
+            message: data.get("q-message"),
+          }),
+        });
+
+        const result = (await response.json()) as { error?: string };
+        setPending(false);
+
+        if (!response.ok) {
+          setError(result.error || "Could not send the quote request. Please try again.");
+          return;
+        }
+
+        form.reset();
         setSent(true);
       }}
     >
@@ -70,10 +106,13 @@ export function QuoteForm() {
         rows={5}
         placeholder="Suburb, timing, or anything we should know before calling."
       />
+      {error ? <p className="text-[13px] text-cta">{error}</p> : null}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" size="sm">Request a quote</Button>
+        <Button type="submit" size="sm" disabled={pending}>
+          {pending ? "Sending…" : "Request a quote"}
+        </Button>
         <p className="text-[13px] text-muted">
-          Visual prototype only. See the{" "}
+          Requests are saved to the dashboard. See the{" "}
           <a href="/privacy" className="font-medium text-brand no-underline hover:underline">
             Privacy Policy
           </a>

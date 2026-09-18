@@ -1,7 +1,14 @@
 import { Container } from "@/components/ui/Container";
 import { TestimonialCarousel } from "@/components/sections/TestimonialCarousel";
+import type { HomeTestimonial } from "@/lib/testimonials";
 
-export function HomeProof({ faqs }: { faqs: { q: string; a: string }[] }) {
+export function HomeProof({
+  faqs,
+  testimonials,
+}: {
+  faqs: { q: string; a: string }[];
+  testimonials: HomeTestimonial[];
+}) {
   return (
     <section className="reveal bg-sky py-14">
       <Container className="reveal-stagger grid min-w-0 gap-12 lg:grid-cols-2">
@@ -14,7 +21,7 @@ export function HomeProof({ faqs }: { faqs: { q: string; a: string }[] }) {
             <span className="whitespace-nowrap">Real People.</span>{" "}
             <span className="whitespace-nowrap">Real Experiences.</span>
           </h2>
-          <TestimonialCarousel />
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
         <div className="min-w-0">
           <p className="mb-3 flex items-center gap-2.5 text-[12px] font-semibold tracking-[0.16em] text-brand uppercase">

@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import { SocialWidget } from "@/components/layout/SocialWidget";
-import { PageMotion } from "@/components/motion/PageMotion";
+import { AppChrome } from "@/components/layout/AppChrome";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -36,13 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Header />
-        <main id="main" className="min-w-0 flex-1 overflow-x-clip">
-          {children}
-        </main>
-        <Footer />
-        <SocialWidget />
-        <PageMotion />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );

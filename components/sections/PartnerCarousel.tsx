@@ -3,31 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { Container } from "@/components/ui/Container";
+import type { HomeLender } from "@/lib/lenders";
 
-const partners = [
-  { src: "/partner/anz.webp", name: "ANZ", href: "https://www.anz.com.au" },
-  { src: "/partner/auswide.webp", name: "Auswide Bank", href: "https://www.auswidebank.com.au" },
-  { src: "/partner/banksa.webp", name: "BankSA", href: "https://www.banksa.com.au" },
-  { src: "/partner/citi.webp", name: "Citi", href: "https://www.citibank.com.au" },
-  { src: "/partner/firefighter.webp", name: "Firefighters Mutual Bank", href: "https://www.fmbank.com.au" },
-  { src: "/partner/firstmac.webp", name: "Firstmac", href: "https://www.firstmac.com.au" },
-  { src: "/partner/healthprofessionals.webp", name: "Health Professionals Bank", href: "https://www.hpbank.com.au" },
-  { src: "/partner/ingbank.webp", name: "ING", href: "https://www.ing.com.au" },
-  { src: "/partner/latrobe.webp", name: "La Trobe Financial", href: "https://www.latrobefinancial.com.au" },
-  { src: "/partner/liberty.webp", name: "Liberty", href: "https://www.liberty.com.au" },
-  { src: "/partner/mystate.webp", name: "MyState", href: "https://www.mystate.com.au" },
-  { src: "/partner/nab.webp", name: "NAB", href: "https://www.nab.com.au" },
-  { src: "/partner/newcastlep.webp", name: "Newcastle Permanent", href: "https://www.newcastlepermanent.com.au" },
-  { src: "/partner/pandnbank.webp", name: "P&N Bank", href: "https://www.pnbank.com.au" },
-  { src: "/partner/peppermoney.webp", name: "Pepper Money", href: "https://www.pepper.com.au" },
-  { src: "/partner/suncorp.webp", name: "Suncorp", href: "https://www.suncorp.com.au" },
-  { src: "/partner/teachersmb.webp", name: "Teachers Mutual Bank", href: "https://www.tmbank.com.au" },
-  { src: "/partner/westpac.webp", name: "Westpac", href: "https://www.westpac.com.au" },
-];
-
-const logos = [...partners, ...partners];
-
-export function PartnerCarousel() {
+export function PartnerCarousel({ partners }: { partners: HomeLender[] }) {
+  const logos = [...partners, ...partners];
   const trackRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
   const pausedRef = useRef(false);
