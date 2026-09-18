@@ -9,9 +9,18 @@ import { Process } from "@/components/sections/Process";
 import { DirectorMessage } from "@/components/sections/DirectorMessage";
 import { RunningStats } from "@/components/sections/RunningStats";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getHomeFaqs } from "@/lib/faqs";
 import { getHomeLenders } from "@/lib/lenders";
+import { defaultDescription, defaultTitle, homeJsonLd, pageMetadata } from "@/lib/seo";
 import { getHomeTestimonials } from "@/lib/testimonials";
+
+export const metadata = pageMetadata({
+  title: defaultTitle,
+  description: defaultDescription,
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default async function HomePage() {
   const [faqs, lenders, testimonials] = await Promise.all([
@@ -22,6 +31,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={homeJsonLd(faqs)} />
       <Hero />
       <Award />
       <HomeServices />

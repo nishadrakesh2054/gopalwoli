@@ -1,3 +1,7 @@
+import type { SanityImageSource } from "@sanity/image-url";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+
 export type Service = {
   slug: string;
   title: string;
@@ -5,12 +9,20 @@ export type Service = {
   navLabel: string;
   summary: string;
   tagline: string;
+  cardBlurb: string;
   intro: string[];
   image: string;
   imageAlt: string;
   steps: { title: string; body: string }[];
   benefits: { title: string; body: string }[];
   faqs: { q: string; a: string }[];
+  seo?: {
+    title: string;
+    description: string;
+    image?: string;
+    canonicalUrl?: string;
+    noIndex: boolean;
+  };
 };
 
 export const services: Service[] = [
@@ -22,6 +34,7 @@ export const services: Service[] = [
     summary:
       "Understand borrowing options, deposits and the steps from enquiry through to settlement.",
     tagline: "Your first home starts with a realistic finance plan.",
+    cardBlurb: "Get expert guidance on your first home loan and make your dreams a reality.",
     intro: [
       "A first home loan is not only a rate comparison. Lenders look at genuine savings, employment, existing debts and the property itself.",
       "We help you understand what is possible now — and what would need to change if it is not quite there yet. Approval is never guaranteed.",
@@ -55,6 +68,7 @@ export const services: Service[] = [
     navLabel: "House & land packages",
     summary: "Finance for purchasing land and building a new home, including construction drawdowns.",
     tagline: "Finance for buying land and building a new home.",
+    cardBlurb: "Finance for land and new home builds with competitive options.",
     intro: [
       "Construction lending is staged. The loan, the builder’s contract and the valuation all need to line up.",
       "You may need a land loan first, then a construction facility that pays the builder in progress claims.",
@@ -86,6 +100,7 @@ export const services: Service[] = [
     navLabel: "Property investment",
     summary: "Loan structures for purchasing investment property alongside existing commitments.",
     tagline: "Loan solutions designed around how you will hold the property.",
+    cardBlurb: "Build your wealth with investment property loans and expert advice.",
     intro: [
       "An investment loan should be judged on cash flow, existing debt and how you intend to hold the property — not only on the advertised rate.",
       "We are not tax advisers. We will tell you when an accountant should be involved.",
@@ -117,6 +132,7 @@ export const services: Service[] = [
     navLabel: "Refinancing",
     summary: "Review your current home loan and whether a change is actually worth the switching costs.",
     tagline: "Review the loan you have. See whether a change is worth it.",
+    cardBlurb: "Explore better rates and features for your current loan.",
     intro: [
       "Refinancing is useful when the rate, features or structure no longer match how you use the loan.",
       "It is not automatically the right move. Break fees and switching costs matter. If staying is better, we will say so.",
@@ -148,6 +164,7 @@ export const services: Service[] = [
     navLabel: "Commercial finance",
     summary: "Conversations around commercial property and business premises lending.",
     tagline: "Finance for commercial property and business premises.",
+    cardBlurb: "Finance for your business and commercial property.",
     intro: [
       "Commercial lending is assessed on the asset, the lease, and the business that services the debt.",
       "Timeframes are often longer than residential loans. Documents usually include financials, tax returns and property details.",
@@ -179,6 +196,7 @@ export const services: Service[] = [
     navLabel: "SMSF",
     summary: "Guidance relating to SMSF property investment and limited recourse borrowing.",
     tagline: "Finance guidance for SMSF property investment.",
+    cardBlurb: "Take control of your super with property investment.",
     intro: [
       "SMSF borrowing is tightly regulated. The loan, the fund and the property have to fit the rules.",
       "This is not SMSF establishment advice. We work alongside your accountant and solicitor, not instead of them.",
@@ -210,6 +228,7 @@ export const services: Service[] = [
     navLabel: "Business finance",
     summary: "Funding conversations for equipment, cash flow and growth.",
     tagline: "Funding solutions matched to how the business operates.",
+    cardBlurb: "Funding for your business growth and goals.",
     intro: [
       "Bring the purpose, the amount and recent financials. We talk through facilities lenders actually use for small and medium businesses.",
       "Director guarantees are common and should be understood before you sign.",
@@ -241,6 +260,7 @@ export const services: Service[] = [
     navLabel: "Vehicle finance",
     summary: "Finance options for purchasing a vehicle, for individuals and businesses.",
     tagline: "Finance options for purchasing a vehicle.",
+    cardBlurb: "Finance options for your next vehicle.",
     intro: [
       "Whether the vehicle is personal or used in a business changes the structure.",
       "We are not a car yard. We help with the finance side once you know what you want to buy, or while you are still comparing.",
@@ -272,6 +292,7 @@ export const services: Service[] = [
     navLabel: "Personal finance",
     summary: "Personal lending for a defined purpose, discussed against existing commitments.",
     tagline: "Personal lending solutions for individual financial needs.",
+    cardBlurb: "Flexible loans for your personal needs.",
     intro: [
       "Personal loans are useful for a defined purpose and a repayment you can sustain.",
       "If a personal loan is not suitable, we will say so rather than stretch the file.",
@@ -301,3 +322,210 @@ export const services: Service[] = [
 export function getService(slug: string) {
   return services.find((item) => item.slug === slug);
 }
+
+export function relatedServices(slug: string) {
+  return services.filter((item) => item.slug !== slug).slice(0, 3);
+}
+
+const SERVICE_CARD_FIELDS = /* groq */ `
+  "slug": slug.current,
+  title,
+  shortTitle,
+  navLabel,
+  summary,
+  tagline,
+  cardBlurb,
+  image,
+  "imageAlt": coalesce(image.alt, title),
+  order
+`;
+
+const SERVICES_QUERY = /* groq */ `
+  *[_type == "service" && defined(slug.current)] | order(order asc, title asc) {
+    ${SERVICE_CARD_FIELDS}
+  }
+`;
+
+const SERVICE_QUERY = /* groq */ `
+  *[_type == "service" && slug.current == $slug][0]{
+    ${SERVICE_CARD_FIELDS},
+    _updatedAt,
+    description,
+    "introText": pt::text(description),
+    steps[]{ title, body },
+    benefits[]{ title, body },
+    faqs[]{ "q": question, "a": answer },
+    "seoTitle": coalesce(seoTitle, title, ""),
+    "seoDescription": coalesce(seoDescription, summary, ""),
+    "seoImage": coalesce(ogImage, image),
+    canonicalUrl,
+    "noIndex": noIndex == true
+  }
+`;
+
+const RELATED_SERVICES_QUERY = /* groq */ `
+  *[_type == "service" && defined(slug.current) && slug.current != $slug]
+    | order(order asc, title asc)[0...3] {
+    ${SERVICE_CARD_FIELDS}
+  }
+`;
+
+export const SERVICE_SITEMAP_QUERY = /* groq */ `
+  *[_type == "service" && defined(slug.current) && noIndex != true]{
+    "slug": slug.current,
+    _updatedAt
+  }
+`;
+
+type SanityServiceCard = {
+  slug?: string;
+  title?: string;
+  shortTitle?: string;
+  navLabel?: string;
+  summary?: string;
+  tagline?: string;
+  cardBlurb?: string;
+  image?: SanityImageSource;
+  imageAlt?: string;
+};
+
+type SanityServiceDetail = SanityServiceCard & {
+  introText?: string;
+  description?: unknown;
+  steps?: { title?: string; body?: string }[];
+  benefits?: { title?: string; body?: string }[];
+  faqs?: { q?: string; a?: string }[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: SanityImageSource;
+  canonicalUrl?: string;
+  noIndex?: boolean;
+};
+
+function serviceImageUrl(image: SanityImageSource | undefined, fallback: string) {
+  if (!image) return fallback;
+  try {
+    return urlFor(image).width(1200).height(800).fit("crop").url() || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function mapService(item: SanityServiceCard): Service | null {
+  if (!item.slug || !item.title) return null;
+  const fallback = getService(item.slug);
+  return {
+    slug: item.slug,
+    title: item.title,
+    shortTitle: item.shortTitle || fallback?.shortTitle || item.title,
+    navLabel: item.navLabel || fallback?.navLabel || item.title,
+    summary: item.summary || fallback?.summary || "",
+    tagline: item.tagline || fallback?.tagline || item.title,
+    cardBlurb: item.cardBlurb || fallback?.cardBlurb || item.summary || "",
+    intro: fallback?.intro ?? [],
+    image: serviceImageUrl(item.image, fallback?.image || "/images/family-home.jpg"),
+    imageAlt: item.imageAlt || fallback?.imageAlt || item.title,
+    steps: fallback?.steps ?? [],
+    benefits: fallback?.benefits ?? [],
+    faqs: fallback?.faqs ?? [],
+    seo: {
+      title: item.title,
+      description: item.summary || fallback?.summary || "",
+      image: serviceImageUrl(item.image, fallback?.image || "/images/family-home.jpg"),
+      noIndex: false,
+    },
+  };
+}
+
+function mapServiceDetail(item: SanityServiceDetail): Service | null {
+  const card = mapService(item);
+  if (!card) return null;
+  const fallback = getService(item.slug || "");
+  const intro =
+    item.introText?.split(/\n+/).map((line) => line.trim()).filter(Boolean) ??
+    fallback?.intro ??
+    [];
+  return {
+    ...card,
+    intro: intro.length ? intro : card.intro,
+    steps:
+      item.steps
+        ?.filter((step) => step.title && step.body)
+        .map((step) => ({ title: step.title as string, body: step.body as string })) ??
+      card.steps,
+    benefits:
+      item.benefits
+        ?.filter((benefit) => benefit.title && benefit.body)
+        .map((benefit) => ({ title: benefit.title as string, body: benefit.body as string })) ??
+      card.benefits,
+    faqs:
+      item.faqs
+        ?.filter((faq) => faq.q && faq.a)
+        .map((faq) => ({ q: faq.q as string, a: faq.a as string })) ?? card.faqs,
+    seo: {
+      title: item.seoTitle || card.title,
+      description: item.seoDescription || card.summary,
+      image: serviceImageUrl(item.seoImage || item.image, card.image),
+      canonicalUrl: item.canonicalUrl || undefined,
+      noIndex: item.noIndex === true,
+    },
+  };
+}
+
+export async function getServices(): Promise<Service[]> {
+  try {
+    const items = await client.fetch<SanityServiceCard[]>(SERVICES_QUERY);
+    const mapped = (items ?? []).map(mapService).filter((item): item is Service => Boolean(item));
+    return mapped.length ? mapped : services;
+  } catch {
+    return services;
+  }
+}
+
+export async function getServiceBySlug(slug: string): Promise<Service | null> {
+  try {
+    const item = await client.fetch<SanityServiceDetail | null>(SERVICE_QUERY, { slug });
+    const mapped = item ? mapServiceDetail(item) : null;
+    if (mapped) return mapped;
+  } catch {
+    // Fall through.
+  }
+  const fallback = getService(slug);
+  return fallback
+    ? {
+        ...fallback,
+        seo: {
+          title: fallback.title,
+          description: fallback.summary,
+          image: fallback.image,
+          noIndex: false,
+        },
+      }
+    : null;
+}
+
+export async function getRelatedServices(slug: string): Promise<Service[]> {
+  try {
+    const items = await client.fetch<SanityServiceCard[]>(RELATED_SERVICES_QUERY, { slug });
+    const mapped = (items ?? []).map(mapService).filter((item): item is Service => Boolean(item));
+    if (mapped.length) return mapped;
+  } catch {
+    // Fall through.
+  }
+  return relatedServices(slug);
+}
+
+export async function getServiceSlugs(): Promise<string[]> {
+  try {
+    const items = await client
+      .withConfig({ useCdn: false })
+      .fetch<{ slug?: string }[]>(
+        `*[_type == "service" && defined(slug.current)]{ "slug": slug.current }`,
+      );
+    const slugs = (items ?? []).map((item) => item.slug).filter((slug): slug is string => Boolean(slug));
+    return slugs.length ? slugs : services.map((item) => item.slug);
+  } catch {
+    return services.map((item) => item.slug);
+  }
+}
+

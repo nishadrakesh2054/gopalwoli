@@ -1,15 +1,18 @@
-import type { Metadata } from "next";
 import { DirectorMessage } from "@/components/sections/DirectorMessage";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About Us",
-  description: "Meet Gopal Woli, a Canberra-based mortgage and finance broker in Belconnen, ACT.",
-};
+  description:
+    "Meet Gopal Woli, a Canberra mortgage broker in Belconnen. Home loans, refinancing and finance guidance in English, Nepali and Hindi.",
+  path: "/about",
+});
 
 const whoWeHelp = [
   {
@@ -44,6 +47,12 @@ const reasons = [
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About Us", path: "/about" },
+        ])}
+      />
       <Breadcrumb title="About Us" />
       <DirectorMessage />
 

@@ -16,3 +16,12 @@ export const footerPages = [
   { href: "/contact", label: "Contact" },
   { href: "/quote", label: "Free quote" },
 ] as const;
+
+export const footerServices = [
+  { href: "/services/first-home-buyer", label: "First home buyer" },
+  { href: "/services/house-and-land", label: "House & land packages" },
+  { href: "/services/property-investment", label: "Property investment" },
+  { href: "/services/refinancing", label: "Refinancing" },
+  { href: "/services/commercial-finance", label: "Commercial finance" },
+  { href: "/services/smsf", label: "SMSF" },
+] as const;

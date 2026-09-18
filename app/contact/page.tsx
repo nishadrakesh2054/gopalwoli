@@ -1,14 +1,17 @@
-import type { Metadata } from "next";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact",
-  description: "Contact Gopal Woli in Belconnen, Canberra — phone, email and consultation request.",
-};
+  description:
+    "Call, email or request a consultation with Canberra mortgage broker Gopal Woli in Belconnen, ACT.",
+  path: "/contact",
+});
 
 const details: { label: string; lines: string[]; href?: string }[] = [
   { label: "Location", lines: [...site.addressLines] },
@@ -21,6 +24,12 @@ const details: { label: string; lines: string[]; href?: string }[] = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ])}
+      />
       <Breadcrumb title="Contact" />
 
       <section className="reveal bg-sky py-12 md:py-16">

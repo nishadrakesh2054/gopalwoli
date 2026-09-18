@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { footerPages } from "@/lib/nav";
-import { services } from "@/lib/services";
+import { footerPages, footerServices } from "@/lib/nav";
 import { site } from "@/lib/site";
 
 function Arrow({ className = "h-3 w-3" }: { className?: string }) {
@@ -113,9 +112,9 @@ export function Footer() {
         <div>
           <ColumnTitle>Services</ColumnTitle>
           <ul className="space-y-1.5">
-            {services.slice(0, 6).map((item) => (
-              <li key={item.slug}>
-                <FooterLink href={`/services/${item.slug}`}>{item.navLabel}</FooterLink>
+            {footerServices.map((item) => (
+              <li key={item.href}>
+                <FooterLink href={item.href}>{item.label}</FooterLink>
               </li>
             ))}
             <li>

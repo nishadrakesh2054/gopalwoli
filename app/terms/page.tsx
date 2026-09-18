@@ -1,16 +1,25 @@
-import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Terms & Conditions",
-  description: "Website terms and conditions layout for Gopal Woli. Placeholder legal copy pending review.",
-};
+  description:
+    "Website terms for using Gopal Woli’s Canberra mortgage broking site, including general information and credit assistance notes.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Terms & Conditions", path: "/terms" },
+        ])}
+      />
       <Breadcrumb title="Terms & Conditions" />
       <article className="reveal py-12 md:py-16">
       <Container className="max-w-[760px]">

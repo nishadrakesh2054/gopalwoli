@@ -1,16 +1,25 @@
-import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "Privacy policy layout for Gopal Woli. Placeholder legal copy pending formal review.",
-};
+  description:
+    "How Gopal Woli collects, uses and stores personal information when you enquire about home loans or other finance.",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Privacy Policy", path: "/privacy" },
+        ])}
+      />
       <Breadcrumb title="Privacy Policy" />
       <article className="reveal py-12 md:py-16">
       <Container className="max-w-[760px]">

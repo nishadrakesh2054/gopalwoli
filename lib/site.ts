@@ -1,5 +1,6 @@
 export const site = {
   name: "Gopal Woli",
+  url: "https://gopalwoli.com.au",
   tagline: "Mortgage broker in Canberra, ACT",
   phone: "+61 470 645 175",
   phoneHref: "tel:+61470645175",
@@ -24,3 +25,9 @@ export const site = {
     x: "https://x.com/",
   },
 } as const;
+
+export function absoluteUrl(path = "/") {
+  const base = site.url.replace(/\/$/, "");
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+}

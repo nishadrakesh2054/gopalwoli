@@ -1,4 +1,6 @@
+import type { SanityImageSource } from "@sanity/image-url";
 import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 export type HomeTestimonial = {
   name: string;
@@ -31,18 +33,38 @@ export const fallbackHomeTestimonials: HomeTestimonial[] = [
 
 const TESTIMONIAL_QUERY = `*[_type == "testimonial" && defined(name) && defined(description)] | order(_createdAt asc) {
   name,
-  description
+  description,
+  image,
+  "imageAlt": coalesce(image.alt, name)
 }`;
+
+function testimonialImageUrl(image: SanityImageSource | undefined, fallback?: string) {
+  if (!image) return fallback;
+  try {
+    return urlFor(image).width(240).height(240).fit("crop").url() || fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export async function getHomeTestimonials(): Promise<HomeTestimonial[]> {
   try {
-    const items = await client.fetch<{ name?: string; description?: string }[]>(TESTIMONIAL_QUERY);
+    const items = await client
+      .withConfig({ useCdn: false })
+      .fetch<
+        { name?: string; description?: string; image?: SanityImageSource; imageAlt?: string }[]
+      >(TESTIMONIAL_QUERY);
     const testimonials = (items ?? [])
       .filter((item) => item.name && item.description)
-      .map((item) => ({
-        name: item.name as string,
-        text: item.description as string,
-      }));
+      .map((item) => {
+        const fallback = fallbackHomeTestimonials.find((entry) => entry.name === item.name);
+        return {
+          name: item.name as string,
+          text: item.description as string,
+          image: testimonialImageUrl(item.image, fallback?.image),
+          imageAlt: item.imageAlt || fallback?.imageAlt || item.name,
+        };
+      });
     return testimonials.length ? testimonials : fallbackHomeTestimonials;
   } catch {
     return fallbackHomeTestimonials;

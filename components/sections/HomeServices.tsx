@@ -1,7 +1,10 @@
 import { ServiceCardGrid } from "@/components/sections/ServiceCardGrid";
 import { Container } from "@/components/ui/Container";
+import { getServices } from "@/lib/services";
 
-export function HomeServices() {
+export async function HomeServices() {
+  const items = await getServices();
+
   return (
     <section className="reveal bg-white py-14 md:py-16">
       <Container>
@@ -15,7 +18,7 @@ export function HomeServices() {
           </h2>
         </div>
 
-        <ServiceCardGrid />
+        <ServiceCardGrid items={items} />
       </Container>
     </section>
   );

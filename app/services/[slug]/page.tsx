@@ -6,30 +6,34 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { getService, services } from "@/lib/services";
+import { getRelatedServices, getServiceBySlug, getServiceSlugs } from "@/lib/services";
+import { serviceJsonLd, serviceMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return services.map((item) => ({ slug: item.slug }));
+export async function generateStaticParams() {
+  const slugs = await getServiceSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = getService(slug);
-  if (!service) return { title: "Service" };
-  return { title: service.title, description: service.summary };
+  const service = await getServiceBySlug(slug);
+  if (!service) return { title: "Service", robots: { index: false, follow: false } };
+  return serviceMetadata(service);
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
-  const others = services.filter((item) => item.slug !== service.slug).slice(0, 3);
+  const others = await getRelatedServices(slug);
 
   return (
     <>
+      <JsonLd data={serviceJsonLd(service)} />
       <Breadcrumb title={service.title} />
 
       <section className="reveal bg-white py-12 md:py-16">

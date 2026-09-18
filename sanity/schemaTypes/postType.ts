@@ -43,6 +43,8 @@ export const postType = defineType({
           name: 'alt',
           title: 'Alternative text',
           type: 'string',
+          validation: (rule) =>
+            rule.required().warning('Alt text helps search engines and screen readers.'),
         }),
       ],
       validation: (rule) => rule.required(),
@@ -64,12 +66,37 @@ export const postType = defineType({
       description: 'Same rich-text editor as services.',
     }),
     defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      group: 'content',
+      options: {
+        list: [
+          {title: 'Home Loans', value: 'Home Loans'},
+          {title: 'First Home Buyers', value: 'First Home Buyers'},
+          {title: 'Property Investment', value: 'Property Investment'},
+          {title: 'Refinancing', value: 'Refinancing'},
+          {title: 'Finance Tips', value: 'Finance Tips'},
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'string',
+      group: 'content',
+      initialValue: 'Gopal Woli',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',
       group: 'content',
       of: [{type: 'string'}],
       options: {layout: 'tags'},
+      description: 'Used as meta keywords and shown on the article.',
     }),
     defineField({
       name: 'publishedAt',
@@ -83,8 +110,9 @@ export const postType = defineType({
       title: 'SEO title',
       type: 'string',
       group: 'seo',
-      description: 'Browser tab / Google title. Leave empty to use the post title.',
-      validation: (rule) => rule.max(60),
+      description: 'Full browser / Google title. Leave empty to use the post title plus the site name.',
+      validation: (rule) =>
+        rule.max(60).warning('Keep under 60 characters so the title is not cut off in search results.'),
     }),
     defineField({
       name: 'seoDescription',
@@ -93,7 +121,17 @@ export const postType = defineType({
       rows: 3,
       group: 'seo',
       description: 'Search-result snippet. Leave empty to use the excerpt.',
-      validation: (rule) => rule.max(160),
+      validation: (rule) =>
+        rule.max(160).warning('Keep under 160 characters so the snippet is not truncated.'),
+    }),
+    defineField({
+      name: 'canonicalUrl',
+      title: 'Canonical URL',
+      type: 'url',
+      group: 'seo',
+      description: 'Optional. Leave empty to use this site’s /blog/slug URL.',
+      validation: (rule) =>
+        rule.uri({scheme: ['https']}).warning('Use a full https URL if you set a canonical.'),
     }),
     defineField({
       name: 'ogImage',
@@ -101,7 +139,7 @@ export const postType = defineType({
       type: 'image',
       group: 'seo',
       options: {hotspot: true},
-      description: 'Optional. Defaults to the main blog image.',
+      description: 'Optional 1200×630 image. Defaults to the main blog image.',
     }),
     defineField({
       name: 'noIndex',
@@ -114,8 +152,15 @@ export const postType = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'excerpt',
+      category: 'category',
       media: 'image',
+    },
+    prepare({title, category, media}) {
+      return {
+        title: title || 'Untitled post',
+        subtitle: category || 'No category',
+        media,
+      }
     },
   },
   orderings: [

@@ -2,32 +2,37 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/blog/BlogCard";
+import { PostBody } from "@/components/blog/PostBody";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Container } from "@/components/ui/Container";
-import { getPost, posts, relatedPosts } from "@/lib/posts";
+import { getPostBySlug, getPostSlugs, getRelatedPosts } from "@/lib/posts";
+import { postJsonLd, postMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return posts.map((item) => ({ slug: item.slug }));
+export async function generateStaticParams() {
+  const slugs = await getPostSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
-  if (!post) return { title: "Article" };
-  return { title: post.title, description: post.excerpt };
+  const post = await getPostBySlug(slug);
+  if (!post) return { title: "Article", robots: { index: false, follow: false } };
+  return postMetadata(post);
 }
 
 export default async function BlogArticlePage({ params }: Props) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
-  const related = relatedPosts(slug);
+  const related = await getRelatedPosts(slug);
 
   return (
     <>
+      <JsonLd data={postJsonLd(post)} />
       <Breadcrumb title="Blog" asHeading={false} />
       <article className="reveal py-12 md:py-16">
         <Container className="max-w-[720px]">
@@ -45,11 +50,19 @@ export default async function BlogArticlePage({ params }: Props) {
           </div>
         </Container>
         <Container className="max-w-[720px] mt-10">
-          {post.paragraphs.map((paragraph) => (
-            <p key={paragraph} className="mb-5 text-[17px] leading-[1.75]">
-              {paragraph}
-            </p>
-          ))}
+          <PostBody value={post.body} fallback={post.paragraphs} />
+          {post.tags.length ? (
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="bg-sky px-3 py-1 text-[12px] font-semibold tracking-wide text-brand uppercase"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </Container>
       </article>
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
-import { services } from "@/lib/services";
+import { services, type Service } from "@/lib/services";
 
 export const serviceCards = [
   {
@@ -71,23 +71,26 @@ export const serviceCards = [
 
 export function ServiceCardGrid({
   headingLevel = "h3",
+  items,
 }: {
   headingLevel?: "h2" | "h3";
+  items?: Service[];
 }) {
   const Title = headingLevel;
+  const list = items?.length ? items : services;
 
   return (
     <div className="reveal-stagger grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {serviceCards.map((card) => {
-        const item = services.find((service) => service.slug === card.slug);
-        if (!item) return null;
-
+      {list.map((item) => {
+        const card = serviceCards.find((entry) => entry.slug === item.slug);
+        const icon = card?.icon ?? "home";
+        const tone = card?.tone ?? "brand";
         const iconWrap =
-          card.tone === "cta" ? "bg-[#fff4e8] text-cta" : "bg-[#e8f3fb] text-brand";
+          tone === "cta" ? "bg-[#fff4e8] text-cta" : "bg-[#e8f3fb] text-brand";
 
         return (
           <article
-            key={card.slug}
+            key={item.slug}
             className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_8px_24px_rgba(23,32,43,0.05)]"
           >
             <div className="relative p-3 pb-0">
@@ -103,17 +106,19 @@ export function ServiceCardGrid({
               <span
                 className={`absolute bottom-2 left-6 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full shadow-[0_6px_16px_rgba(23,32,43,0.12)] ${iconWrap}`}
               >
-                <Icon name={card.icon} className="w-6 h-6" />
+                <Icon name={icon} className="w-6 h-6" />
               </span>
             </div>
 
             <div className="flex flex-1 flex-col px-5 pt-4 pb-5">
               <Title className="text-[17px] font-semibold tracking-[-0.02em] leading-snug text-ink">
-                {card.title}
+                {item.title}
               </Title>
-              <p className="mt-1.5 text-[13.5px] text-muted leading-relaxed">{card.blurb}</p>
+              <p className="mt-1.5 text-[13.5px] text-muted leading-relaxed">
+                {item.cardBlurb || item.summary}
+              </p>
               <Link
-                href={`/services/${card.slug}`}
+                href={`/services/${item.slug}`}
                 className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-brand no-underline hover:underline"
               >
                 Learn More

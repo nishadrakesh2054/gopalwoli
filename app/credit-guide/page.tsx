@@ -1,16 +1,24 @@
-import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Credit Guide",
-  description: "Credit Guide for Gopal Woli. Document to be published before the site goes live.",
-};
+  description: `Credit Guide for Gopal Woli, Credit Representative ${site.creditRep} of ${site.licensee}, Australian Credit Licence ${site.acl}.`,
+  path: "/credit-guide",
+});
 
 export default function CreditGuidePage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Credit Guide", path: "/credit-guide" },
+        ])}
+      />
       <Breadcrumb title="Credit Guide" />
       <article className="reveal py-12 md:py-16">
         <Container className="max-w-[760px]">
