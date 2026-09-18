@@ -51,10 +51,10 @@ export function Header() {
             alt="Gopal Woli"
             width={280}
             height={207}
-            className={`block w-auto transition-[height] duration-300 h-[68px] ${
+            className={`block w-auto transition-[height] duration-300 h-[65px] ${
               scrolled
-                ? "lg:h-[76px]"
-                : "lg:h-[120px] lg:drop-shadow-[0_6px_16px_rgba(255,255,255,0.55)]"
+                ? "lg:h-[73px]"
+                : "lg:h-[117px] lg:drop-shadow-[0_6px_16px_rgba(255,255,255,0.55)]"
             }`}
             priority
           />

@@ -1,3 +1,4 @@
+import { Award } from "@/components/sections/Award";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
 import { HomePromos } from "@/components/sections/HomePromos";
@@ -44,6 +45,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Award />
       <HomeServices />
       <Process />
       <WhyChooseUs />
