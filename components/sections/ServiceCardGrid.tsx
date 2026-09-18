@@ -101,6 +101,7 @@ export function ServiceCardGrid({
                   fill
                   className="object-cover object-center"
                   sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
+                  quality={65}
                 />
               </div>
               <span

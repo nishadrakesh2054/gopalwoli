@@ -46,7 +46,15 @@ export default async function BlogArticlePage({ params }: Props) {
         </Container>
         <Container className="max-w-[900px] mt-8">
           <div className="relative h-[280px] md:h-[400px]">
-            <Image src={post.image} alt={post.imageAlt} fill className="object-cover" priority />
+            <Image
+              src={post.image}
+              alt={post.imageAlt}
+              fill
+              className="object-cover"
+              sizes="(min-width: 900px) 900px, 100vw"
+              priority
+              quality={70}
+            />
           </div>
         </Container>
         <Container className="max-w-[720px] mt-10">

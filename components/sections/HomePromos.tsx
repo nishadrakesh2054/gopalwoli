@@ -32,6 +32,7 @@ export function HomePromos() {
                 fill
                 className="object-cover"
                 sizes="(min-width: 768px) 25vw, 100vw"
+                quality={65}
               />
             </div>
             <div className="bg-brand text-white p-6 flex flex-col justify-center">

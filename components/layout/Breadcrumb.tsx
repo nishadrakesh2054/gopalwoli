@@ -22,6 +22,7 @@ export function Breadcrumb({
         className="object-cover object-center"
         sizes="100vw"
         priority
+        quality={50}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-brand/20 via-transparent to-navy/70" />
       <Container className="relative z-10 py-16 text-center md:py-20 lg:pt-36">

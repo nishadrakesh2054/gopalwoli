@@ -1,6 +1,7 @@
 import type { PortableTextBlock } from "next-sanity";
 import type { SanityImageSource } from "@sanity/image-url";
-import { client } from "@/sanity/lib/client";
+import { cache } from "react";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import { urlFor } from "@/sanity/lib/image";
 
 export type Post = {
@@ -29,14 +30,6 @@ export type PostArticle = Post & {
     noIndex: boolean;
   };
 };
-
-export const categories = [
-  "Home Loans",
-  "First Home Buyers",
-  "Property Investment",
-  "Refinancing",
-  "Finance Tips",
-] as const;
 
 export const posts: Post[] = [
   {
@@ -337,19 +330,19 @@ export function relatedPosts(slug: string) {
   return posts.filter((item) => item.slug !== slug).slice(0, 3);
 }
 
-export async function getPosts(): Promise<Post[]> {
+export const getPosts = cache(async function getPosts(): Promise<Post[]> {
   try {
-    const items = await client.fetch<SanityPostCard[]>(POSTS_QUERY);
+    const items = await sanityFetch<SanityPostCard[]>(POSTS_QUERY);
     const mapped = (items ?? []).map(mapCard).filter((item): item is Post => Boolean(item));
     return mapped.length ? mapped : posts;
   } catch {
     return posts;
   }
-}
+});
 
-export async function getPostBySlug(slug: string): Promise<PostArticle | null> {
+export const getPostBySlug = cache(async function getPostBySlug(slug: string): Promise<PostArticle | null> {
   try {
-    const item = await client.fetch<SanityPostArticle | null>(POST_QUERY, { slug });
+    const item = await sanityFetch<SanityPostArticle | null>(POST_QUERY, { slug });
     const mapped = item ? mapArticle(item) : null;
     if (mapped) return mapped;
   } catch {
@@ -357,29 +350,27 @@ export async function getPostBySlug(slug: string): Promise<PostArticle | null> {
   }
   const fallback = getPost(slug);
   return fallback ? articleFromFallback(fallback) : null;
-}
+});
 
-export async function getRelatedPosts(slug: string): Promise<Post[]> {
+export const getRelatedPosts = cache(async function getRelatedPosts(slug: string): Promise<Post[]> {
   try {
-    const items = await client.fetch<SanityPostCard[]>(RELATED_QUERY, { slug });
+    const items = await sanityFetch<SanityPostCard[]>(RELATED_QUERY, { slug });
     const mapped = (items ?? []).map(mapCard).filter((item): item is Post => Boolean(item));
     if (mapped.length) return mapped;
   } catch {
     // Fall through.
   }
   return relatedPosts(slug);
-}
+});
 
-export async function getPostSlugs(): Promise<string[]> {
+export const getPostSlugs = cache(async function getPostSlugs(): Promise<string[]> {
   try {
-    const items = await client
-      .withConfig({ useCdn: false })
-      .fetch<{ slug?: string }[]>(
-        `*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`,
-      );
+    const items = await sanityFetch<{ slug?: string }[]>(
+      `*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`,
+    );
     const slugs = (items ?? []).map((item) => item.slug).filter((slug): slug is string => Boolean(slug));
     return slugs.length ? slugs : posts.map((item) => item.slug);
   } catch {
     return posts.map((item) => item.slug);
   }
-}
+});

@@ -1,5 +1,6 @@
 import type { SanityImageSource } from "@sanity/image-url";
-import { client } from "@/sanity/lib/client";
+import { cache } from "react";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import { urlFor } from "@/sanity/lib/image";
 
 export type Service = {
@@ -472,19 +473,19 @@ function mapServiceDetail(item: SanityServiceDetail): Service | null {
   };
 }
 
-export async function getServices(): Promise<Service[]> {
+export const getServices = cache(async function getServices(): Promise<Service[]> {
   try {
-    const items = await client.fetch<SanityServiceCard[]>(SERVICES_QUERY);
+    const items = await sanityFetch<SanityServiceCard[]>(SERVICES_QUERY);
     const mapped = (items ?? []).map(mapService).filter((item): item is Service => Boolean(item));
     return mapped.length ? mapped : services;
   } catch {
     return services;
   }
-}
+});
 
-export async function getServiceBySlug(slug: string): Promise<Service | null> {
+export const getServiceBySlug = cache(async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
-    const item = await client.fetch<SanityServiceDetail | null>(SERVICE_QUERY, { slug });
+    const item = await sanityFetch<SanityServiceDetail | null>(SERVICE_QUERY, { slug });
     const mapped = item ? mapServiceDetail(item) : null;
     if (mapped) return mapped;
   } catch {
@@ -502,30 +503,28 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
         },
       }
     : null;
-}
+});
 
-export async function getRelatedServices(slug: string): Promise<Service[]> {
+export const getRelatedServices = cache(async function getRelatedServices(slug: string): Promise<Service[]> {
   try {
-    const items = await client.fetch<SanityServiceCard[]>(RELATED_SERVICES_QUERY, { slug });
+    const items = await sanityFetch<SanityServiceCard[]>(RELATED_SERVICES_QUERY, { slug });
     const mapped = (items ?? []).map(mapService).filter((item): item is Service => Boolean(item));
     if (mapped.length) return mapped;
   } catch {
     // Fall through.
   }
   return relatedServices(slug);
-}
+});
 
-export async function getServiceSlugs(): Promise<string[]> {
+export const getServiceSlugs = cache(async function getServiceSlugs(): Promise<string[]> {
   try {
-    const items = await client
-      .withConfig({ useCdn: false })
-      .fetch<{ slug?: string }[]>(
-        `*[_type == "service" && defined(slug.current)]{ "slug": slug.current }`,
-      );
+    const items = await sanityFetch<{ slug?: string }[]>(
+      `*[_type == "service" && defined(slug.current)]{ "slug": slug.current }`,
+    );
     const slugs = (items ?? []).map((item) => item.slug).filter((slug): slug is string => Boolean(slug));
     return slugs.length ? slugs : services.map((item) => item.slug);
   } catch {
     return services.map((item) => item.slug);
   }
-}
+});
 

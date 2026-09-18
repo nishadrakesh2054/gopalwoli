@@ -23,6 +23,7 @@ export function DirectorMessage() {
               fill
               className="object-cover object-[center_18%]"
               sizes="(min-width: 1024px) 50vw, 100vw"
+              quality={65}
             />
             <span className="absolute bottom-0 left-0 h-1 w-full bg-cta" aria-hidden="true" />
           </div>

@@ -59,6 +59,7 @@ const components: PortableTextComponents = {
             height={560}
             className="h-auto w-full object-cover"
             sizes="(min-width: 900px) 720px, 100vw"
+            quality={70}
           />
         </figure>
       );

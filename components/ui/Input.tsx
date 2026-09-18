@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const fieldClass =
-  "w-full h-11 rounded-[2px] border border-line bg-white px-3.5 text-[15px] text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-brand";
+  "w-full h-11 rounded-[2px] border border-line bg-white px-3.5 text-[15px] text-ink shadow-none outline-none ring-0 transition-colors placeholder:text-muted/70 focus:border-brand focus:outline-none focus:ring-0 focus-visible:border-brand focus-visible:outline-none focus-visible:ring-0";
 
 export const labelClass = "mb-1.5 block text-[13px] font-semibold text-ink";
 

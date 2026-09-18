@@ -45,6 +45,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: HomeTestim
                         fill
                         className="object-cover object-[center_18%]"
                         sizes="(min-width: 768px) 120px, 96px"
+                        quality={65}
                       />
                     </div>
                   ) : null}

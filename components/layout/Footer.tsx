@@ -81,9 +81,11 @@ export function Footer() {
             <Image
               src="/gopalwalilogo.png"
               alt="Gopal Woli"
-              width={280}
-              height={207}
+              width={160}
+              height={118}
               className="mb-3 h-[56px] w-auto"
+              sizes="76px"
+              quality={70}
             />
           </Link>
           <p className="max-w-[30ch] text-[13.5px] leading-relaxed text-[#9aa8b5]">

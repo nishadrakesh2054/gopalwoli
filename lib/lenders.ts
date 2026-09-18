@@ -1,4 +1,5 @@
-import { client } from "@/sanity/lib/client";
+import { cache } from "react";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import { urlFor } from "@/sanity/lib/image";
 
 export type HomeLender = { src: string; href: string; name: string };
@@ -38,9 +39,9 @@ function hostName(link: string) {
   }
 }
 
-export async function getHomeLenders(): Promise<HomeLender[]> {
+export const getHomeLenders = cache(async function getHomeLenders(): Promise<HomeLender[]> {
   try {
-    const items = await client.fetch<{ image?: unknown; link?: string }[]>(LENDER_QUERY);
+    const items = await sanityFetch<{ image?: unknown; link?: string }[]>(LENDER_QUERY);
     const lenders = (items ?? [])
       .filter((item) => item.image && item.link)
       .map((item) => ({
@@ -53,4 +54,4 @@ export async function getHomeLenders(): Promise<HomeLender[]> {
   } catch {
     return fallbackHomeLenders;
   }
-}
+});

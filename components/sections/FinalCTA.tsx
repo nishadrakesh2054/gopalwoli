@@ -21,6 +21,7 @@ export function FinalCTA({
         fill
         className="object-cover object-center"
         sizes="100vw"
+        quality={50}
       />
       <div className="absolute inset-0 bg-brand/88" />
       <Container className="relative z-10 text-center">

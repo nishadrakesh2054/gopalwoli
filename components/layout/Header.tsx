@@ -49,14 +49,15 @@ export function Header() {
           <Image
             src="/gopalwalilogo.png"
             alt="Gopal Woli"
-            width={280}
-            height={207}
+            width={160}
+            height={118}
             className={`block w-auto transition-[height] duration-300 h-[65px] ${
               scrolled
                 ? "lg:h-[73px]"
                 : "lg:h-[117px] lg:drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]"
             }`}
-            priority
+            sizes="(min-width: 1024px) 158px, 88px"
+            quality={70}
           />
         </Link>
 

@@ -1,14 +1,11 @@
-"use client";
-
 import Image from "next/image";
-import CountUp from "react-countup";
 import { Container } from "@/components/ui/Container";
 
 const stats = [
-  { end: 12, label: "Years in industry" },
-  { end: 30, label: "Award Winner" },
-  { end: 1500, label: "Happy Clients", separator: true },
-  { end: 5, label: "Ratings" },
+  { value: "12", label: "Years in industry" },
+  { value: "30", label: "Award Winner" },
+  { value: "1,500", label: "Happy Clients" },
+  { value: "5", label: "Ratings" },
 ];
 
 export function RunningStats() {
@@ -20,6 +17,7 @@ export function RunningStats() {
         fill
         className="object-cover object-center"
         sizes="100vw"
+        quality={50}
       />
       <div className="absolute inset-0 bg-[#0b2a44]/78" />
       <div className="absolute inset-0 bg-gradient-to-r from-brand/35 via-transparent to-cta/20" />
@@ -32,13 +30,7 @@ export function RunningStats() {
               className="text-center lg:border-l lg:border-white/15 lg:pl-6 first:lg:border-l-0 first:lg:pl-0"
             >
               <p className="text-[36px] md:text-[44px] font-bold leading-none tracking-tight text-cta">
-                <CountUp
-                  end={stat.end}
-                  duration={2.4}
-                  separator={stat.separator ? "," : ""}
-                  enableScrollSpy
-                  scrollSpyOnce
-                />
+                {stat.value}
               </p>
               <span className="mx-auto mt-2.5 mb-2 block h-[2px] w-8 bg-cta" />
               <p className="text-[12.5px] md:text-[13.5px] font-medium tracking-[0.08em] uppercase text-white/90">

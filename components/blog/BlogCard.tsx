@@ -22,7 +22,7 @@ export function BlogCard({
     <article className="overflow-hidden bg-white ring-1 ring-line transition-shadow hover:shadow-[0_10px_24px_rgba(23,32,43,0.08)]">
       <Link href={href} className="block no-underline">
         <div className="relative aspect-[5/3] overflow-hidden">
-          <Image src={image} alt={imageAlt} fill className="object-cover" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+          <Image src={image} alt={imageAlt} fill className="object-cover" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" quality={65} />
         </div>
         <div className="p-5">
           <p className="text-[11px] font-semibold tracking-[0.14em] text-brand uppercase">

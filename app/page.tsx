@@ -15,6 +15,8 @@ import { getHomeLenders } from "@/lib/lenders";
 import { defaultDescription, defaultTitle, homeJsonLd, pageMetadata } from "@/lib/seo";
 import { getHomeTestimonials } from "@/lib/testimonials";
 
+export const revalidate = 3600;
+
 export const metadata = pageMetadata({
   title: defaultTitle,
   description: defaultDescription,

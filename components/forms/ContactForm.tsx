@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { FormSuccess } from "@/components/forms/FormSuccess";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -17,23 +16,13 @@ export function ContactForm() {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
-  if (sent) {
-    return (
-      <FormSuccess
-        title="Message received"
-        body="Thanks for getting in touch. We’ll reply using the details you provided."
-        resetLabel="Send another message"
-        onReset={() => setSent(false)}
-      />
-    );
-  }
-
   return (
     <form
       className="grid gap-5"
       onSubmit={async (event) => {
         event.preventDefault();
         setError("");
+        setSent(false);
         setPending(true);
 
         const form = event.currentTarget;
@@ -63,6 +52,11 @@ export function ContactForm() {
         setSent(true);
       }}
     >
+      {sent ? (
+        <p className="rounded-[2px] bg-sky px-3.5 py-3 text-[14.5px] leading-relaxed text-ink">
+          Message sent. We’ll reply using the details you provided.
+        </p>
+      ) : null}
       <div className="grid gap-5 sm:grid-cols-2">
         <Input id="name" label="Full name" autoComplete="name" required />
         <Input id="email" label="Email" type="email" autoComplete="email" required />
@@ -87,8 +81,8 @@ export function ContactForm() {
       </div>
       <Textarea id="message" label="Message" rows={5} />
       {error ? <p className="text-[13px] text-cta">{error}</p> : null}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" size="sm" disabled={pending}>
+      <div className="flex flex-col items-start gap-3">
+        <Button type="submit" size="sm" className="w-auto px-5" disabled={pending}>
           {pending ? "Sending…" : "Send message"}
         </Button>
         <p className="text-[13px] text-muted">

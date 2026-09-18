@@ -1,4 +1,5 @@
-import { client } from "@/sanity/lib/client";
+import { cache } from "react";
+import { sanityFetch } from "@/sanity/lib/fetch";
 
 export type HomeFaq = { q: string; a: string };
 
@@ -39,9 +40,9 @@ const FAQ_QUERY = `*[_type == "faq"] | order(order asc, _createdAt asc) {
   answer
 }`;
 
-export async function getHomeFaqs(): Promise<HomeFaq[]> {
+export const getHomeFaqs = cache(async function getHomeFaqs(): Promise<HomeFaq[]> {
   try {
-    const items = await client.fetch<{ question?: string; answer?: string }[]>(FAQ_QUERY);
+    const items = await sanityFetch<{ question?: string; answer?: string }[]>(FAQ_QUERY);
     const faqs = (items ?? [])
       .filter((item) => item.question && item.answer)
       .map((item) => ({ q: item.question as string, a: item.answer as string }));
@@ -49,4 +50,4 @@ export async function getHomeFaqs(): Promise<HomeFaq[]> {
   } catch {
     return fallbackHomeFaqs;
   }
-}
+});

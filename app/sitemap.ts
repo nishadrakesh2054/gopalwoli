@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { POST_SITEMAP_QUERY, posts } from "@/lib/posts";
 import { SERVICE_SITEMAP_QUERY, services } from "@/lib/services";
 import { absoluteUrl } from "@/lib/site";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/fetch";
 
 const staticPaths = [
   "/",
@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const sanityPosts = await client.fetch<{ slug?: string; _updatedAt?: string }[]>(
+    const sanityPosts = await sanityFetch<{ slug?: string; _updatedAt?: string }[]>(
       POST_SITEMAP_QUERY,
     );
     if (sanityPosts?.length) {
@@ -48,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const sanityServices = await client.fetch<{ slug?: string; _updatedAt?: string }[]>(
+    const sanityServices = await sanityFetch<{ slug?: string; _updatedAt?: string }[]>(
       SERVICE_SITEMAP_QUERY,
     );
     if (sanityServices?.length) {

@@ -1,38 +1,9 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useRef } from "react";
 import { Container } from "@/components/ui/Container";
 import type { HomeLender } from "@/lib/lenders";
 
 export function PartnerCarousel({ partners }: { partners: HomeLender[] }) {
   const logos = [...partners, ...partners];
-  const trackRef = useRef<HTMLDivElement>(null);
-  const offsetRef = useRef(0);
-  const pausedRef = useRef(false);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    let frame = 0;
-    const speed = 0.55;
-
-    const tick = () => {
-      if (!pausedRef.current) {
-        offsetRef.current -= speed;
-        const loopWidth = track.scrollWidth / 2;
-        if (loopWidth > 0 && -offsetRef.current >= loopWidth) {
-          offsetRef.current += loopWidth;
-        }
-        track.style.transform = `translate3d(${Math.round(offsetRef.current)}px,0,0)`;
-      }
-      frame = requestAnimationFrame(tick);
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, []);
 
   return (
     <section className="reveal bg-white py-12 md:py-14">
@@ -51,16 +22,8 @@ export function PartnerCarousel({ partners }: { partners: HomeLender[] }) {
         </div>
       </Container>
 
-      <div
-        className="relative h-[80px] w-full max-w-full overflow-hidden sm:h-[92px]"
-        onMouseEnter={() => {
-          pausedRef.current = true;
-        }}
-        onMouseLeave={() => {
-          pausedRef.current = false;
-        }}
-      >
-        <div ref={trackRef} className="absolute top-0 left-0 flex w-max will-change-transform">
+      <div className="partner-marquee relative h-[80px] w-full max-w-full overflow-hidden sm:h-[92px]">
+        <div className="partner-marquee-track absolute top-0 left-0 flex w-max">
           {logos.map((partner, index) => (
             <a
               key={`${partner.name}-${index}`}
@@ -75,6 +38,8 @@ export function PartnerCarousel({ partners }: { partners: HomeLender[] }) {
                 width={150}
                 height={52}
                 className="h-9 w-auto max-w-[110px] object-contain sm:h-12 sm:max-w-[148px]"
+                sizes="148px"
+                quality={65}
               />
             </a>
           ))}

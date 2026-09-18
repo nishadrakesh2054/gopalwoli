@@ -39,6 +39,7 @@ export function WhyChooseUs() {
               fill
               className="object-cover"
               sizes="(min-width: 1024px) 33vw, 100vw"
+              quality={65}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#17202b]/25 to-transparent" />
             <span className="absolute bottom-0 left-0 h-1 w-full bg-cta" aria-hidden="true" />

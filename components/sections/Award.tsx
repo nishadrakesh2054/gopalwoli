@@ -95,9 +95,11 @@ export function Award() {
                       <Image
                         src={award.src}
                         alt={award.alt}
-                        width={400}
-                        height={400}
+                        width={240}
+                        height={240}
                         className="mx-auto h-[92px] w-[92px] rounded-full object-contain transition-transform duration-300 hover:scale-105 sm:h-[108px] sm:w-[108px] md:h-[120px] md:w-[120px]"
+                        sizes="120px"
+                        quality={65}
                       />
                       <p className="mt-2 text-[11px] font-medium leading-tight tracking-wide text-muted">
                         {award.label}

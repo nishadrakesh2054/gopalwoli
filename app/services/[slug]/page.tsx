@@ -46,6 +46,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               className="object-cover"
               sizes="(min-width: 1024px) 50vw, 100vw"
               priority
+              quality={70}
             />
             <span className="absolute bottom-0 left-0 h-1 w-full bg-cta" aria-hidden="true" />
           </div>

@@ -107,17 +107,10 @@ export function QuoteForm() {
         placeholder="Suburb, timing, or anything we should know before calling."
       />
       {error ? <p className="text-[13px] text-cta">{error}</p> : null}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" size="sm" disabled={pending}>
+      <div>
+        <Button type="submit" size="sm" className="px-5" disabled={pending}>
           {pending ? "Sending…" : "Request a quote"}
         </Button>
-        <p className="text-[13px] text-muted">
-          Requests are saved to the dashboard. See the{" "}
-          <a href="/privacy" className="font-medium text-brand no-underline hover:underline">
-            Privacy Policy
-          </a>
-          .
-        </p>
       </div>
     </form>
   );

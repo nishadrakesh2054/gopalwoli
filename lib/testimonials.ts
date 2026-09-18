@@ -1,5 +1,6 @@
 import type { SanityImageSource } from "@sanity/image-url";
-import { client } from "@/sanity/lib/client";
+import { cache } from "react";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import { urlFor } from "@/sanity/lib/image";
 
 export type HomeTestimonial = {
@@ -47,13 +48,11 @@ function testimonialImageUrl(image: SanityImageSource | undefined, fallback?: st
   }
 }
 
-export async function getHomeTestimonials(): Promise<HomeTestimonial[]> {
+export const getHomeTestimonials = cache(async function getHomeTestimonials(): Promise<HomeTestimonial[]> {
   try {
-    const items = await client
-      .withConfig({ useCdn: false })
-      .fetch<
-        { name?: string; description?: string; image?: SanityImageSource; imageAlt?: string }[]
-      >(TESTIMONIAL_QUERY);
+    const items = await sanityFetch<
+      { name?: string; description?: string; image?: SanityImageSource; imageAlt?: string }[]
+    >(TESTIMONIAL_QUERY);
     const testimonials = (items ?? [])
       .filter((item) => item.name && item.description)
       .map((item) => {
@@ -69,4 +68,4 @@ export async function getHomeTestimonials(): Promise<HomeTestimonial[]> {
   } catch {
     return fallbackHomeTestimonials;
   }
-}
+});

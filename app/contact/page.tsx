@@ -1,5 +1,6 @@
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { OfficeMap } from "@/components/layout/OfficeMap";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -78,13 +79,7 @@ export default function ContactPage() {
         </Container>
 
         <Container className="mt-6">
-          <iframe
-            title="Map of Gopal Woli office in Belconnen"
-            src="https://maps.google.com/maps?q=2-10%20Oatley%20Court%20Belconnen%20ACT%202617&z=16&output=embed"
-            className="h-[320px] w-full border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <OfficeMap />
         </Container>
       </section>
     </>
